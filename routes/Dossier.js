@@ -1,8 +1,9 @@
-import express from 'express';
-import DossierModel from '../models/dossier'; 
 
-const router = express.Router();
+const { Router } = require("express")
+const DossierModel = require("../models/dossier")
 
+
+const router = Router()
 router.post('/add_Dossier', async (req, res) => {
   const {
     InfoPersonnel,
@@ -97,5 +98,5 @@ router.delete('/deleteDossiers/:id', async (req, res) => {
     res.status(500).send({ error: 'Error deleting dossier', message: err.message });
   }
 });
-
-export default router;
+module.exports = router
+// export default router;

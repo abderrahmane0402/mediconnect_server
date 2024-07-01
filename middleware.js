@@ -1,14 +1,14 @@
-import { config } from "dotenv"
-import jwt from "jsonwebtoken"
+const jwt = require("jsonwebtoken")
+const { config } = require("dotenv")
 
 // get config vars
 config()
 
-export function generateAccessToken(id) {
+function generateAccessToken(id) {
   return jwt.sign({ id: id }, process.env.TOKEN_SECRET, { expiresIn: "1d" })
 }
 
-export function authenticateToken(req, res, next) {
+function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"]
   const token = authHeader && authHeader.split(" ")[1]
 
@@ -22,3 +22,5 @@ export function authenticateToken(req, res, next) {
     next()
   })
 }
+
+module.exports = { generateAccessToken, authenticateToken }

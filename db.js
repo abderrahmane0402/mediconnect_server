@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
-import { config } from "dotenv"
+const mongoose = require("mongoose")
+const dotenv = require("dotenv")
 
-config()
+dotenv.config()
 
 const connection = {}
 
@@ -16,4 +16,4 @@ async function dbConnect() {
   connection.isConnected = db.connections[0].readyState
 }
 
-export { dbConnect }
+module.exports = { dbConnect }

@@ -1,8 +1,11 @@
-import express, { json } from "express"
-import { dbConnect } from "./db.js"
-import cors from "cors"
-import authRouter from "./routes/auth.js"
-import DossierRouter from "./routes/Dossier.js"
+const express = require("express")
+const { json } = express
+const { dbConnect } = require("./db.js")
+const cors = require("cors")
+const authRouter = require("./routes/auth.js")
+const userRouter = require("./routes/user")
+const dossierRouter = require("./routes/Dossier.js")
+const MaterielRouter = require("./routes/materiel.js")
 
 
 const app = express()
@@ -13,7 +16,10 @@ app.use(json())
 
 
 app.use("/api/auth", authRouter)
-app.use("/dossier", DossierRouter)
+app.use("/user", userRouter)
+app.use("/dossier", dossierRouter)
+app.use("/materiel", MaterielRouter)
+
 
 dbConnect()
   .then(() => console.log("MongoDB connected"))
