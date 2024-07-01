@@ -1,7 +1,7 @@
-import { Router } from "express"
-import Utilisateur from "../models/user.js"
-import bcrypt from "bcrypt"
-import { generateAccessToken } from "../middleware.js"
+const { Router } = require("express")
+const Utilisateur = require("../models/user.js")
+const bcrypt = require("bcrypt")
+const { generateAccessToken } = require("../middleware.js")
 
 const router = Router()
 
@@ -34,4 +34,4 @@ router.post("/", async (req, res) => {
   }
 })
 
-export default router
+module.exports = router

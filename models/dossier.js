@@ -1,4 +1,5 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose")
+
 const DossierSchema = new mongoose.Schema({
   InfoPersonnel: {
     nom: { type: String },
@@ -271,4 +272,4 @@ const DossierSchema = new mongoose.Schema({
 // Create and export the model
 const DossierModel = mongoose.model("Dossier", DossierSchema)
 
-export default DossierModel
+module.exports = DossierModel
