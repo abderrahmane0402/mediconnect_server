@@ -2,6 +2,8 @@ import express, { json } from "express"
 import { dbConnect } from "./db.js"
 import cors from "cors"
 import authRouter from "./routes/auth.js"
+import DossierRouter from "./routes/Dossier.js"
+
 
 const app = express()
 const port = 3001
@@ -9,8 +11,9 @@ const port = 3001
 app.use(cors({ origin: "*" }))
 app.use(json())
 
-// routes
+
 app.use("/api/auth", authRouter)
+app.use("/dossier", DossierRouter)
 
 dbConnect()
   .then(() => console.log("MongoDB connected"))
