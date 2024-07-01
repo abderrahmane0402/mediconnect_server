@@ -11,6 +11,7 @@ const utilisateurSchema = new Schema({
   cin: { type: String, required: true, unique: true },
   posteTravail: { type: String, required: true },
   PPR: { type: String, required: true, unique: true },
+  user_type: { type: String, required: true },
 })
 
 const Utilisateur = model("Utilisateur", utilisateurSchema)

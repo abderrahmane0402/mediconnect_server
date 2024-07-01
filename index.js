@@ -6,7 +6,7 @@ import authRouter from "./routes/auth.js"
 const app = express()
 const port = 3001
 
-app.use(cors())
+app.use(cors({ origin: "*" }))
 app.use(json())
 
 // routes
@@ -17,7 +17,7 @@ dbConnect()
   .catch((err) => console.error("MongoDB connection error:", err))
 
 app.get("/", async (req, res) => {
-  res.send("hi")
+  res.send({ message: "hello" })
 })
 
 app.listen(port, () => {

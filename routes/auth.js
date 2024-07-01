@@ -1,32 +1,35 @@
 import { Router } from "express"
-import Utilisateur from "../models/user"
+import Utilisateur from "../models/user.js"
+import bcrypt from "bcrypt"
+import { generateAccessToken } from "../middleware.js"
 
 const router = Router()
 
-router.post("/login" , async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { login, password } = req.body
-    const user = await Utilisateur.findOne({ cin : login }).select()
+    console.log(login, password)
+    const user = await Utilisateur.findOne({ cin: login }).select(
+      "nom prenom password user_type"
+    )
+
     if (!user) {
-      return res
-        .status(400)
-        .send({ message: "User not found" })
+      return res.status(400).send({ message: "User not found" })
     }
+
     if (!bcrypt.compareSync(password, user.password)) {
       res.status(400).send({ message: "password incorrect", status: "error" })
       return
     }
 
     const token = generateAccessToken(user.id)
-    res.send({
+    res.status(200).send({
       message: "User logged in successfully",
-      status: "success",
-      data: {
-        token,
-        user,
-      },
+      token,
+      user,
     })
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: error.message, status: "error" })
   }
 })
