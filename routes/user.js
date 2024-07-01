@@ -3,9 +3,30 @@ const Utilisateur = require("../models/user")
 
 const router = Router()
 
+router.get("/getUser", (req, res) => {
+  try {
+    const { id } = req.params
+    const user = Utilisateur.findById(id)
+    res.status(200).send(user)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error)
+  }
+})
+
 router.get("/getUsers", async (req, res) => {
   try {
     const users = await Utilisateur.find()
+    res.status(200).send(users)
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error)
+  }
+})
+
+router.get("/getUsersSimplified", async (req, res) => {
+  try {
+    const users = await Utilisateur.find().select("nom prenom cin posteTravail")
     res.status(200).send(users)
   } catch (error) {
     console.error(error)
@@ -25,7 +46,6 @@ router.post("/addUser", async (req, res) => {
       cin,
       posteTravail,
       PPR,
-      user_type,
     } = req.body
 
     // Validate input
@@ -38,9 +58,9 @@ router.post("/addUser", async (req, res) => {
       !daten ||
       !cin ||
       !posteTravail ||
-      !PPR ||
-      !user_type
+      !PPR
     ) {
+      console.log("hello")
       return res.status(400).send({ message: "All fields are required" })
     }
 
@@ -55,7 +75,7 @@ router.post("/addUser", async (req, res) => {
       cin,
       posteTravail,
       PPR,
-      user_type,
+      user_type: posteTravail,
     })
 
     // Save the user to the database
@@ -99,6 +119,8 @@ router.put("/updateUser/:id", async (req, res) => {
 router.delete("/deleteUser/:id", async (req, res) => {
   try {
     const userId = req.params.id
+    console.log(userId)
+    console.log("req")
 
     // Find the user by ID and delete
     const deletedUser = await Utilisateur.findByIdAndDelete(userId)
