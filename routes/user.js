@@ -1,12 +1,13 @@
 const { Router } = require("express")
 const Utilisateur = require("../models/user")
+const bcrypt = require("bcrypt")
 
 const router = Router()
 
-router.get("/getUser", (req, res) => {
+router.get("/getUser/:id", async (req, res) => {
   try {
     const { id } = req.params
-    const user = Utilisateur.findById(id)
+    const user = await Utilisateur.findById(id)
     res.status(200).send(user)
   } catch (error) {
     console.error(error)
@@ -46,6 +47,7 @@ router.post("/addUser", async (req, res) => {
       cin,
       posteTravail,
       PPR,
+      user_type,
     } = req.body
 
     // Validate input
@@ -58,24 +60,26 @@ router.post("/addUser", async (req, res) => {
       !daten ||
       !cin ||
       !posteTravail ||
-      !PPR
+      !PPR ||
+      !user_type
     ) {
-      console.log("hello")
       return res.status(400).send({ message: "All fields are required" })
     }
+
+    const cryptedPassword = await bcrypt.hash(password, 10)
 
     // Create a new user
     const newUser = new Utilisateur({
       nom,
       prenom,
       telephone,
-      password,
+      password: cryptedPassword,
       adresse,
       daten,
       cin,
       posteTravail,
       PPR,
-      user_type: posteTravail,
+      user_type,
     })
 
     // Save the user to the database
@@ -93,6 +97,13 @@ router.put("/updateUser/:id", async (req, res) => {
   try {
     const userId = req.params.id
     const updateData = req.body
+
+    if (updateData.password) {
+      updateData.password = await bcrypt.hash(updateData.password, 10)
+    } else {
+      delete updateData.password
+      delete updateData.confirmPassword
+    }
 
     // Find the user by ID and update with new data
     const updatedUser = await Utilisateur.findByIdAndUpdate(
@@ -119,7 +130,6 @@ router.put("/updateUser/:id", async (req, res) => {
 router.delete("/deleteUser/:id", async (req, res) => {
   try {
     const userId = req.params.id
-    console.log(userId)
     console.log("req")
 
     // Find the user by ID and delete
