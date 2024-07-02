@@ -12,6 +12,7 @@ const app = express()
 const port = 3001
 
 app.use(cors({ origin: "*" }))
+app.use(json({ limit: "15mb" }))
 app.use(json())
 
 
