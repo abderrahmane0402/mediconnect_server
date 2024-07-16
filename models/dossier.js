@@ -14,6 +14,7 @@ const DossierSchema = new mongoose.Schema({
     DPPR: { type: Number },
     Groupe_sanguin: { type: String },
   },
+  visites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Visite' }],
   nbr_Dossier: { type: String },
   delegation_Medicale: { type: String },
   Formation_Santaire: { type: String },

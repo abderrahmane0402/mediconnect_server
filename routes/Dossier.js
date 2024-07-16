@@ -14,6 +14,7 @@ router.post('/add_Dossier', async (req, res) => {
     Antecedent_Professionnels,
     Antecedent_médicaux,
     PremierExam,
+    Vaccinationautre,
   } = req.body;
 
   const newDossier = new DossierModel({
@@ -25,6 +26,7 @@ router.post('/add_Dossier', async (req, res) => {
     Antecedent_Professionnels,
     Antecedent_médicaux,
     PremierExam,
+    Vaccinationautre,
   });
 
   try {
@@ -69,6 +71,8 @@ router.get('/getPDFDossiers/:id', async (req, res) => {
     const simplifiedDossier = {
       InfoPersonnel: dossier.InfoPersonnel,
       Vaccination: dossier.Vaccination,
+      Vaccinationautre: dossier.Vaccinationautre,
+
       Antecedent_médicaux: dossier.Antecedent_médicaux,
       Antecedent_Professionnels: dossier.Antecedent_Professionnels,
       dateExamen: new Date(dossier.PremierExam.Date_exam).toISOString().split('T')[0],

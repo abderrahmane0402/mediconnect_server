@@ -6,6 +6,8 @@ const authRouter = require("./routes/auth.js")
 const userRouter = require("./routes/user")
 const dossierRouter = require("./routes/Dossier.js")
 const MaterielRouter = require("./routes/materiel.js")
+const VisiteRouter = require("./routes/visite.js")
+
 
 
 const app = express()
@@ -20,6 +22,8 @@ app.use("/api/auth", authRouter)
 app.use("/user", userRouter)
 app.use("/dossier", dossierRouter)
 app.use("/materiel", MaterielRouter)
+app.use("/visite", VisiteRouter)
+
 
 
 dbConnect()
